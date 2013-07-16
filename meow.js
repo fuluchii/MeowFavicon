@@ -94,6 +94,7 @@ function getMeow(option) {
 		var progress = 1;
 		drawSectorInterval = setInterval(function drawTimebar(){
 			var pro = progress/60;
+			drawOriginalImage('https://github.com/favicon.ico');
 			drawSector(color,pro);
 			setFavicon(canvas.toDataURL());
 			progress ++;
@@ -101,10 +102,19 @@ function getMeow(option) {
 		
 		setTimeout(function(){
 			clearInterval(drawSectorInterval);
-			drawSector(color,1);
+			// drawSector(color,1);
+
 			setFavicon(canvas.toDataURL());
 		},timeperiod);
 
+	}
+
+	var drawOriginalImage = function (url){
+		var context = getCtx();
+		var image = new Image();
+		image.crossOrigin = 'anonymous';
+		image.src = url;
+		context.drawImage(image,0,0);
 	}
 
 
