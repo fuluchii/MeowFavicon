@@ -111,10 +111,14 @@ function getMeow(option) {
 
 	var drawOriginalImage = function (url){
 		var context = getCtx();
-		var image = new Image();
-		image.crossOrigin = 'anonymous';
-		image.src = url;
-		context.drawImage(image,0,0);
+		var originImg = new Image();
+		originImg.crossOrigin = 'Anonymous';
+		originImg.onLoad = function(){
+			context.drawImage(originImg,0,0);
+		}
+		originImg.src = url;
+
+		// context.drawImage(originImg,0,0);
 	}
 
 
