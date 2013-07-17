@@ -4,10 +4,36 @@
 	<link rel="Shortcut Icon" href="http://i2.static.dp/s/res/favicon.ico" type="image/x-icon">
 </head>
 <body>
+	<div class="title">
+		<h1>MeowFavicon.JS</h1>
+		<h3>--Play With Your Favicon</h3>
+	</div>
+	<div class="demo">
+		<ul>
+			<li><button class="fadein" onclick="fadein();">FadeIn</button></li>
+			<li><button class="change" onclick="change();">Change It</button></li>
+			<li><button class="countdown" onclick="cd();">Set Countdown</button></li>
+		</ul>
+	</div>
 <script type="text/javascript" src="meow.js"></script>
 <script type="text/javascript">
 	var meow = getMeow({});
-	meow.changeFaviconForAWhile(1000,1000,'https://github.com/favicon.ico');
+	var fadein = function(){
+		meow.fadeinFavicon('/favicon.ico',6000);
+	}
+	var change = function(){
+		meow.changeFavicon('https://github.com/favicon.ico');
+	}
+	var cd = function(){
+		meow.countdown(1000,'#aaa',6000);
+	}
 </script>
+<style>
+.title {
+	height: 200px;
+	text-align: center;
+	margin-top:40px;
+}
+</style>
 </body>
 </html>

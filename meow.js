@@ -11,6 +11,8 @@ function getMeow(option) {
 	var oldFavicon 		= null;
 	var canvas 			= null;
 	var context 		= null;
+	var running 		= false;
+	var runningTimeout = false;
 
 	//and some CONSTANT VARIABLES
 	var TITLE_PREFIX = ' Was Eaten BY Meow!';
@@ -72,9 +74,21 @@ function getMeow(option) {
 		return (tag.getAttribute("href")) || false;
 	}
 
-	var drawFavicon = function () {
-		var context = readCanvas().getContext('2d');
+	var stopPre = function(){
+		running = true;
+	}
+	var start = function(){
+		running = false;
+	}
 
+	var stop = function (interval) {
+		if(running){
+			clear();
+			clearInterval(running);
+			clearTimeout(runningTimeout);
+			running = false;
+			runningTimeout = false;
+		}
 	}
 
 	//and some methods about draw image on canvas
@@ -90,35 +104,60 @@ function getMeow(option) {
 	}
 
 	var drawCountdown = function (timeperiod,color) {
+		stop();
 		var fireInterval = timeperiod/60;
 		var progress = 1;
-		drawSectorInterval = setInterval(function drawTimebar(){
+		drawSectorInterval = running = setInterval(function drawTimebar(){
 			var pro = progress/60;
-			drawOriginalImage('https://github.com/favicon.ico');
 			drawSector(color,pro);
 			setFavicon(canvas.toDataURL());
 			progress ++;
 		},fireInterval);
-		
-		setTimeout(function(){
-			clearInterval(drawSectorInterval);
-			// drawSector(color,1);
 
+		
+		runningTimeout = setTimeout(function(){
+			clearInterval(drawSectorInterval);
+			drawSector(color,1);
 			setFavicon(canvas.toDataURL());
 		},timeperiod);
 
 	}
 
-	var drawOriginalImage = function (url){
-		var context = getCtx();
-		var originImg = new Image();
-		originImg.crossOrigin = 'Anonymous';
-		originImg.onLoad = function(){
-			context.drawImage(originImg,0,0);
-		}
-		originImg.src = url;
+	var drawFadeIn = function (timeperiod,url) {
+		stop();
+		var fireInterval = timeperiod/30;
+		var progress = 1;
+		drawSectorInterval = running = setInterval(function drawTimebar(){
+			var pro = progress/30;
+			drawImage(url,pro);
+			setFavicon(canvas.toDataURL());
+			progress ++;
+		},fireInterval);
+		
+		runningTimeout = setTimeout(function(){
+			clearInterval(drawSectorInterval);
+			drawImage(url,1);
+			setFavicon(canvas.toDataURL());
+		},timeperiod);
+	}
 
-		// context.drawImage(originImg,0,0);
+	var drawImage = function (url,alpha){
+		var context = getCtx();
+		context.globalAlpha = alpha;
+		var originImg = new Image();	
+		originImg.crossOrigin = '';
+		originImg.src = url;
+		context.drawImage(originImg,0,0,originImg.width,originImg.height,0,0,CENTER_Y*2,CENTER_X*2);
+	}
+
+	var drawAnother = function  (url) {
+		stop();
+		setFavicon(url);
+	}
+
+	var clear = function  () {
+		var context = getCtx();
+		context.clearRect(0,0,CENTER_Y*2,CENTER_X*2);
 	}
 
 
@@ -126,17 +165,16 @@ function getMeow(option) {
 	//and return a meow object
 	return {
 		changeFavicon: function (url) {
-			setFavicon(url);
+			drawAnother(url);
 		},
-		changeFaviconForAWhile: function (delay , lasttime, url){
-			setTimeout(function() {drawCountdown(6000,'#C00');}, delay);
-				
+		countdown: function (delay , color,lasttime){
+			setTimeout(function() {drawCountdown(lasttime,color);}, delay);		
 		},
 		changeTitle: function (newTitle) {
 			// body...
 		},
-		meowFavicon: function () {
-			
+		fadeinFavicon: function (url,lasttime) {
+			drawFadeIn(lasttime,url);
 		}
 	}
 };
