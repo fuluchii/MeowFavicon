@@ -6,9 +6,10 @@
 <body>
 	<div class="title">
 		<h1>MeowFavicon.JS</h1>
-		<h3>--Play With Your Favicon</h3>
+		<h3>Play With Your Favicon</h3>
 	</div>
 	<div class="demo">
+		<div class="see"><h4>Click and See DEMOs below.</h4></div>
 		<ul>
 			<li><button class="fadein" onclick="fadein();">FadeIn</button></li>
 			<li><button class="change" onclick="change();">Change It</button></li>
@@ -25,14 +26,46 @@
 		meow.changeFavicon('https://github.com/favicon.ico');
 	}
 	var cd = function(){
-		meow.countdown(1000,'#aaa',6000);
+		meow.countdown(0,'#00a3cf',6000);
 	}
 </script>
 <style>
-.title {
-	height: 200px;
+body{
+	margin: 0;
+}
+.demo .see{
 	text-align: center;
-	margin-top:40px;
+	color: #00a3cf;
+	font-size: 15px;
+}
+.title {
+	width: 100%;
+	height: 200px;
+	padding-top: 50px;
+	text-align: center;
+	background-color: #00a3cf;
+	color: white;
+	text-shadow:black 0 1px 0;
+}
+.demo li{
+	list-style: none;
+	float: left;
+	width: 30%;
+	margin-left: 3%;
+}
+.demo button{
+	margin:0 auto;
+	cursor: pointer;
+	text-align: center;
+	width: 100%;
+	background-color: transparent;
+	border: none;
+	font-size: 22px;
+	color: #00a3cf;
+	height: 40px;
+}
+button:hover{
+	color: #44a3ff;
 }
 </style>
 </body>
