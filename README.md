@@ -2,7 +2,7 @@
 
 A tiny lib to change favicon dynamically.
 
-Inspring by pomatodo.com's favicon.
+Inspired by pomatodo.com's favicon.
 
 DEMO:[http://letsparty.fuluchii.me/](http://letsparty.fuluchii.me/)
 
